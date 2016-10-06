@@ -34,7 +34,7 @@ class BigdotsIO {
   }
 
   text(message, options, callback = function() {}) {
-    new Typewriter(options).text('500,000', (coordinates) => {
+    new Typewriter(options).text(message, (coordinates) => {
       this.update(coordinates, callback);
     });
   }
