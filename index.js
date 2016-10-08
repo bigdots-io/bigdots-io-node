@@ -13,7 +13,7 @@ class BigdotsIO {
     });
   }
 
-  clear(callback = function() {}) {
+  clearAll(callback = function() {}) {
     var coordinates = [];
 
     for(let x = 0; x < this.config.width; x++) {
@@ -33,10 +33,16 @@ class BigdotsIO {
     }, callback);
   }
 
-  text(message, options, callback = function() {}) {
-    new Typewriter(options).text(message, (coordinates) => {
-      this.update(coordinates, callback);
-    });
+  createTextArea(options) {
+    var typewriter = new Typewriter(options);
+
+    return {
+      write: (text, callback = function() {}) => {
+        typewriter.write(text, (coordinates) => {
+          this.update(coordinates, callback);
+        });
+      }
+    };
   }
 }
 
