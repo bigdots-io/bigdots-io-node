@@ -10,6 +10,6 @@
   "license": "ISC",
   "dependencies": {
     "request": "^2.75.0",
-    "typewriter": "bigdots-io/typewriter.git#v0.6.0"
+    "typewriter": "bigdots-io/typewriter.git#v0.7.0"
   }
 }

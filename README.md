@@ -33,3 +33,5 @@ var bigdots = new BigdotsIO({
 });
 
 ```
+
+For available fonts, reference the [fonts repo](https://github.com/bigdots-io/fonts).
