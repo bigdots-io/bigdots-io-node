@@ -4,6 +4,7 @@ var Typewriter = require('typewriter');
 class BigdotsIO {
   constructor(config, callback) {
     this.key = config.key;
+    this.activeMacro = null;
 
     request.get({
       url: buildUrl(`displays/${this.key}`)
@@ -43,6 +44,16 @@ class BigdotsIO {
         });
       }
     };
+  }
+
+  macro(name, options, callback = function() {}) {
+    request.patch({
+      url: buildUrl(`displays/${this.key}`),
+      body: JSON.stringify({
+        macroConfig: options,
+        macro: name
+      })
+    }, callback);
   }
 }
 
