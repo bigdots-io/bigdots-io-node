@@ -8,14 +8,16 @@ Use Node? Great! This is the rich interface to programmatically update a Bigdots
 var bigdots = new BigdotsIO({
   key: "YOUR-BOARD-KEY"
 }, function() {
+  
   bigdots.clearAll(function() {
     bigdots.update([
       {x: 0, y: 0, hex: '#FFFFFF'},
       {x: 0, y: 1, hex: '#FFFFFF'},
       {x: 0, y: 1, hex: '#FFFFFF'},
       // ...
-    ])
+    ]);
   });
+
 });
 ```
 
@@ -44,6 +46,7 @@ var bigdots = new BigdotsIO({
     // that have not changed. Performance!
     textArea.write('100,011');
   });
+
 });
 ```
 
@@ -55,8 +58,10 @@ BigDots Macros are prebuilt LED Display programs that you can config via options
 var bigdots = new BigdotsIO({
   key: "YOUR-BOARD-KEY"
 }, function() {
+
   bigdots.macro('twinkle', {
     color: '#CCCCCC'
   });
+
 });
 ```
