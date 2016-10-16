@@ -55,7 +55,6 @@ BigDots Macros are prebuilt LED Display programs that you can config via options
 var bigdots = new BigdotsIO({
   key: "YOUR-BOARD-KEY"
 }, function() {
-
   bigdots.macro('twinkle', {
     color: '#CCCCCC'
   });
