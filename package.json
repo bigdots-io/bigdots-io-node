@@ -1,6 +1,6 @@
 {
   "name": "bigdots-io",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "description": "Node wrapper for updating a Bigdots.io LED board",
   "main": "index.js",
   "scripts": {
