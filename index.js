@@ -1,5 +1,6 @@
 var request = require('request');
 var Typewriter = require('typewriter');
+var getPixels = require('get-pixels');
 
 class BigdotsIO {
   constructor(config, callback) {
@@ -55,6 +56,36 @@ class BigdotsIO {
       })
     }, callback);
   }
+
+  image(url, callback = function() {}) {
+    getPixels(url, (err, pixels) => {
+      if(err) {
+        callback(err);
+      }
+
+      var imageWidth = pixels.shape[0],
+          imageHeight = pixels.shape[1];
+
+      var coordinates = [];
+
+      for(let x = 0; x < imageWidth; x++) {
+        for(let y = 0; y < imageHeight; y++) {
+          var r = pixels.get(x, y, 0),
+              g = pixels.get(x, y, 1),
+              b = pixels.get(x, y, 2),
+              a = pixels.get(x, y, 3);
+
+          var hex = rgb2hex(`rgba(${r}, ${g}, ${b}, ${a})`)
+
+          coordinates.push({ x: x, y: y, hex: hex });
+        }
+      }
+
+      this.update(coordinates, function() {
+        callback();
+      });
+    })
+  }
 }
 
 var buildUrl = function(uri) {
@@ -72,6 +103,11 @@ var transformCoordinates = function(coordinates) {
   });
 
   return transformedCoordinates;
+}
+
+function rgb2hex(rgb) {
+  rgb = rgb.match(/^rgba?[\s+]?\([\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?/i);
+  return (rgb && rgb.length === 4) ? "#" + ("0" + parseInt(rgb[1],10).toString(16)).slice(-2) + ("0" + parseInt(rgb[2],10).toString(16)).slice(-2) + ("0" + parseInt(rgb[3],10).toString(16)).slice(-2) : '';
 }
 
 module.exports = BigdotsIO;

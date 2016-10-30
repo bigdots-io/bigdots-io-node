@@ -8,7 +8,7 @@ Use Node? Great! This is the rich interface to programmatically update a Bigdots
 var bigdots = new BigdotsIO({
   key: "YOUR-BOARD-KEY"
 }, function() {
-  
+
   bigdots.clearAll(function() {
     bigdots.update([
       {x: 0, y: 0, hex: '#FFFFFF'},
@@ -45,6 +45,24 @@ var bigdots = new BigdotsIO({
     // only the diff will be updated, and not all the dots
     // that have not changed. Performance!
     textArea.write('100,011');
+  });
+
+});
+```
+
+### Display Image
+
+Displaying images is via a url is very easy. Just follow the example below.
+
+```js
+var bigdots = new BigdotsIO({
+  key: "YOUR-BOARD-KEY"
+}, function() {
+
+  bigdots.image('http://..../your/image.png', function(err) {
+    if(err) {
+      // Uh oh!
+    }
   });
 
 });
