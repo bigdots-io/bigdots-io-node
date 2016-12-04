@@ -9,8 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "get-pixels": "^3.3.0",
     "request": "^2.75.0",
-    "typewriter": "bigdots-io/typewriter.git#v0.8.0"
+    "dot-generator": "bigdots-io/dot-generator.git#0.12.0"
   }
 }

@@ -4,6 +4,8 @@ Use Node? Great! This is the rich interface to programmatically update a Bigdots
 
 ### Update Individual Dots
 
+*Note:* Make sure you're using the [Programmable macro!](https://github.com/bigdots-io/macros)
+
 ```js
 var bigdots = new BigdotsIO({
   key: "YOUR-BOARD-KEY"
@@ -23,7 +25,9 @@ var bigdots = new BigdotsIO({
 
 ### Display Text
 
-Display text with Rich formating and alignment is easy and quick. For available fonts, reference the [fonts repo](https://github.com/bigdots-io/fonts).
+Display text with rich formatting and alignment is easy and quick. For available fonts, reference the [fonts repo](https://github.com/bigdots-io/fonts).
+
+*Note:* Make sure you're using the [Programmable macro!](https://github.com/bigdots-io/macros)
 
 ```js
 var bigdots = new BigdotsIO({
@@ -31,20 +35,13 @@ var bigdots = new BigdotsIO({
 }, function() {
 
   bigdots.clearAll(function() {
-    // Save a reference to your textarea
-    var textArea = bigdots.createTextArea({
+    bigdots.text({
       font: 'system-16',
       alignment: 'right',
-      startingColumn: 95,
-      startingRow: 1,
+      text: 'Hello World'
+    }, function() {
+      console.log('Rendered!');
     });
-
-    textArea.write('100,001');
-
-    // You can call the write function multiple times and
-    // only the diff will be updated, and not all the dots
-    // that have not changed. Performance!
-    textArea.write('100,011');
   });
 
 });
@@ -54,14 +51,20 @@ var bigdots = new BigdotsIO({
 
 Displaying images is via a url is very easy. Just follow the example below.
 
+*Note:* Make sure you're using the [Programmable macro!](https://github.com/bigdots-io/macros)
+*Note:* If you are trying to display an animated image, use the [Image macro](https://github.com/bigdots-io/macros)!
+
 ```js
 var bigdots = new BigdotsIO({
   key: "YOUR-BOARD-KEY"
 }, function() {
 
-  bigdots.image('http://..../your/image.png', function(err) {
-    if(err) {
-      // Uh oh!
+  bigdots.image('http://..../your/image.png', {
+    onSuccess: function() {
+      console.log('Rendered!');
+    },
+    onError: function(err) {
+      console.log('uh oh!', err);
     }
   });
 
@@ -70,7 +73,7 @@ var bigdots = new BigdotsIO({
 
 ### Using Macros
 
-BigDots Macros are prebuilt LED Display programs that you can config via options. For a list of available macros, see the [macros library repo](https://github.com/bigdots-io/macro-library).
+BigDots Macros are prebuilt LED Display programs that you can config via options. For a list of available macros, see the [Macros repo](https://github.com/bigdots-io/macros).
 
 ```js
 var bigdots = new BigdotsIO({

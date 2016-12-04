@@ -1,6 +1,5 @@
 var request = require('request');
-var Typewriter = require('typewriter');
-var getPixels = require('get-pixels');
+var DotGenerator = require("dot-generator");
 
 class BigdotsIO {
   constructor(config, callback) {
@@ -16,18 +15,20 @@ class BigdotsIO {
   }
 
   clearAll(callback = function() {}) {
-    var coordinates = [];
+    var result = new DotGenerator().color('#000000', {
+      width: this.config.width,
+      height: this.config.height,
+    })
 
-    for(let x = 0; x < this.config.width; x++) {
-      for(let y = 0; y < this.config.height; y++) {
-        coordinates.push({y: y, x: x, hex: '#000000'});
-      }
-    }
-
-    this.update(coordinates, callback);
+    this.update(result.dots, callback);
   }
 
   update(coordinates, callback = function() {}) {
+    if(this.config.macro !== 'programmable') {
+      console.log("\nLooks like you want to manaully update your board.. \nTry setting the macro to 'programmable' first! \n\n");
+      return;
+    }
+
     var transformedCoordinates = transformCoordinates(coordinates);
     request.patch({
       url: buildUrl(`matrices/${this.config.matrix}`),
@@ -35,16 +36,12 @@ class BigdotsIO {
     }, callback);
   }
 
-  createTextArea(options) {
-    var typewriter = new Typewriter(options);
+  text(options, callback = function() {}) {
+    options.width = options.width || this.config.width;
+    options.height = options.height || this.config.height;
 
-    return {
-      write: (text, callback = function() {}) => {
-        typewriter.write(text, (coordinates) => {
-          this.update(coordinates, callback);
-        });
-      }
-    };
+    var result = new DotGenerator().text(options);
+    this.update(result.dots, callback);
   }
 
   macro(name, options, callback = function() {}) {
@@ -54,36 +51,31 @@ class BigdotsIO {
         macroConfig: options,
         macro: name
       })
-    }, callback);
+    }, () => {
+      this.config.macro = name;
+      this.config.macroConfig = options;
+
+      callback();
+    });
   }
 
-  image(url, callback = function() {}) {
-    getPixels(url, (err, pixels) => {
-      if(err) {
-        callback(err);
-      }
+  image(url, callbacks = {}) {
+    new DotGenerator().image(url, {
+      onSuccess: (result) => {
+        if(result.animated) {
+          console.log("\n\n Looks like you are trying to render an animated image. \n Use the image macro! \n\n");
+        }
 
-      var imageWidth = pixels.shape[0],
-          imageHeight = pixels.shape[1];
-
-      var coordinates = [];
-
-      for(let x = 0; x < imageWidth; x++) {
-        for(let y = 0; y < imageHeight; y++) {
-          var r = pixels.get(x, y, 0),
-              g = pixels.get(x, y, 1),
-              b = pixels.get(x, y, 2),
-              a = pixels.get(x, y, 3);
-
-          var hex = rgb2hex(`rgba(${r}, ${g}, ${b}, ${a})`)
-
-          coordinates.push({ x: x, y: y, hex: hex });
+        this.update(result.data, function() {
+          if(callbacks.onSuccess) {
+            callbacks.onSuccess();
+          }
+        });
+      }, onError: function() {
+        if(callbacks.onSuccess) {
+          callbacks.onError();
         }
       }
-
-      this.update(coordinates, function() {
-        callback();
-      });
     })
   }
 }
