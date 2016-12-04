@@ -17,7 +17,9 @@ var bigdots = new BigdotsIO({
       {x: 0, y: 1, hex: '#FFFFFF'},
       {x: 0, y: 1, hex: '#FFFFFF'},
       // ...
-    ]);
+    ], function() {
+      console.log('Rendered!');
+    });
   });
 
 });
