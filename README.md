@@ -47,11 +47,12 @@ var bigdots = new BigdotsIO({
 });
 ```
 
-### Display Image
+### Display Images
 
-Displaying images is via a url is very easy. Just follow the example below.
+Displaying an image via a url is very easy. Just follow the example below.
 
 *Note:* Make sure you're using the [Programmable macro!](https://github.com/bigdots-io/macros)
+
 *Note:* If you are trying to display an animated image, use the [Image macro](https://github.com/bigdots-io/macros)!
 
 ```js
