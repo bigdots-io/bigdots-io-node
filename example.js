@@ -15,6 +15,8 @@ var bigdots = new BigdotsIO({
       //   text: 'HELLO WORLD',
       //   alignment: 'center'
       // });
+
+      // bigdots.brightness(50);
     });
   });
 });

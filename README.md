@@ -25,6 +25,22 @@ var bigdots = new BigdotsIO({
 });
 ```
 
+### Adjust brightness
+
+Supply a value between 0 and 100. Default brightness is 20. (these boards get really bright!)
+
+```js
+var bigdots = new BigdotsIO({
+  key: "YOUR-BOARD-KEY"
+}, function() {
+
+  bigdots.brightness(75, function() {
+    // updated!
+  });
+
+});
+```
+
 ### Display Text
 
 Display text with rich formatting and alignment is easy and quick. For available fonts, reference the [fonts repo](https://github.com/bigdots-io/fonts).

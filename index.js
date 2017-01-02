@@ -59,6 +59,15 @@ class BigdotsIO {
     });
   }
 
+  brightness(value = 20, callback = function() {}) {
+    request.patch({
+      url: buildUrl(`displays/${this.key}`),
+      body: JSON.stringify({brightness: value})
+    }, () => {
+      callback();
+    });
+  }
+
   image(url, callbacks = {}) {
     new DotGenerator().image(url, {
       onSuccess: (result) => {
@@ -81,7 +90,7 @@ class BigdotsIO {
 }
 
 var buildUrl = function(uri) {
-  return `https://led-fiesta.firebaseio.com/${uri}.json`
+  return `https://bigdots-b46cc.firebaseio.com/${uri}.json`
 }
 
 var transformCoordinates = function(coordinates) {
